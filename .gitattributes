@@ -8,3 +8,4 @@
 *.2bit -text
 *.nib -text
 *.sizes -text
+genome1_chr*  -text
