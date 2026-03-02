@@ -1,0 +1,4 @@
+genome1	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome1.fa
+genome2	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome2.fa
+genome3	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome3.fa
+target	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/target.fa

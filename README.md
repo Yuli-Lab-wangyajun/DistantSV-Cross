@@ -45,10 +45,10 @@ I will use the sample files in the demo folder to demonstrate the usage steps of
 Before running, the following information needs to be prepared:
 ### 1. Prepare the species.txt file
 ```
-genome1	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genomes_path/genome1.fa
-genome2	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genomes_path/genome2.fa
-genome3	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genomes_path/genome3.fa
-target	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genomes_path/target.fa
+genome1	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome1.fa
+genome2	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome2.fa
+genome3	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome3.fa
+target	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/target.fa
 ```
 Note: The first column is the abbreviated name for each species' genome, which you can customize for your convenience—it is recommended to keep it concise. The second column is the absolute path to the genome. Please note that these two columns must be separated by a tab. In this example, target.fa is designated as the target species to be analyzed, and the reference species is genome1.fa.
 
