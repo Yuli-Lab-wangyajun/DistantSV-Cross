@@ -22,8 +22,6 @@ DistantSV-Cross provides a complete pipeline for running the code, requiring onl
 
 ### 1. Download the source code
 ```
-wget https://github.com/Yuli-Lab-wangyajun/DistantSV-Cross.git
-or
 git clone https://github.com/Yuli-Lab-wangyajun/DistantSV-Cross
 ```
 
