@@ -498,7 +498,7 @@ def detect_inter_block_insertions(blocks, target, ref_species, non_target_specie
     return insertions
 
 def detect_translocations(blocks, target, ref_species, non_target_species, max_gap=100):
-    """Block1 and block3 chromosomes are same, determine translocation type based on block2 chromosome"""
+    """Detect translocations: require block1 and block3 have same chromosome, determine type based on block2 chromosome."""
     translocations = []
     translocation_block_indices = set()
     
@@ -507,7 +507,7 @@ def detect_translocations(blocks, target, ref_species, non_target_species, max_g
         b2 = blocks[i+1]['species']
         b3 = blocks[i+2]['species']
         
-        # 1. Target species must exist in all three blocks
+        # 1. Target species must be present in all three blocks
         if target not in b1 or target not in b2 or target not in b3:
             continue
             
@@ -515,15 +515,15 @@ def detect_translocations(blocks, target, ref_species, non_target_species, max_g
         t2 = b2[target]
         t3 = b3[target]
         
-        # 2. Require block1 and block3 chromosomes to be same, otherwise skip
+        # 2. Block1 and block3 must have the same chromosome, otherwise skip
         if t1['chrom'] != t3['chrom']:
             continue
 
-        # 2.1 All three blocks' target species strand directions must be consistent
+        # 2.1 All three blocks must have the same strand orientation in target species
         if t1['strand'] != t2['strand'] or t2['strand'] != t3['strand']:
             continue    
             
-        # 3. Check if non-target species gaps are within max_gap range
+        # 3. Check if intervals in non-target species are within max_gap
         non_target_valid = True
         for species in non_target_species + [ref_species]:
             if species not in b1 or species not in b2 or species not in b3:
@@ -539,12 +539,12 @@ def detect_translocations(blocks, target, ref_species, non_target_species, max_g
                 non_target_valid = False
                 break
                 
-            # Check strand direction consistency
+            # Check strand consistency
             if s1['strand'] != s2['strand'] or s2['strand'] != s3['strand']:
                 non_target_valid = False
                 break
                 
-            # Check if inter-block gaps are within max_gap range
+            # Check if inter-block gaps are within max_gap
             gap1 = calculate_gap(s1, s2, species)
             gap2 = calculate_gap(s2, s3, species)
             
@@ -555,33 +555,44 @@ def detect_translocations(blocks, target, ref_species, non_target_species, max_g
         if not non_target_valid:
             continue
             
-        # 4. Check if target species block2 is not between block1 and block3 coordinates
-        if t1['strand'] == '+':
-            # Positive strand: coordinates increase from small to large
-            block1_start = t1['actual_start']
-            block2_start = t2['actual_start']
-            block2_end = t2['actual_end']
-            block3_end = t3['actual_end']
-            
-            # Check if block2 is not between block1 and block3
-            is_translocation = (block2_start < block1_start and block2_end < block1_start) or (block2_start > block3_end and block2_end > block3_end)
-            
-            # Check gap between block1 and block3
-            gap_b1_b3 = t3['actual_start'] - t1['actual_end']
+        # 4. Check if target block2 is not between block1 and block3 coordinates
+        # First decide whether coordinate comparison is needed based on chromosome equality
+        if t2['chrom'] != t1['chrom']:
+            # Different chromosomes, directly consider as translocation (inter-chromosomal)
+            is_translocation = True
+            # Calculate gap between block1 and block3 (considering strand)
+            if t1['strand'] == '+':
+                gap_b1_b3 = t3['actual_start'] - t1['actual_end']
+            else:
+                gap_b1_b3 = t1['actual_end'] - t3['actual_start']
         else:
-            # Negative strand: coordinates decrease from large to small
-            block1_start = t1['actual_start']
-            block2_start = t2['actual_start']
-            block2_end = t2['actual_end']
-            block3_end = t3['actual_end']
-            
-            # Check if block2 is not between block1 and block3
-            is_translocation = (block2_start < block1_start and block2_end < block1_start) or (block2_start > block3_end and block2_end > block3_end)
-            
-            # Check gap between block1 and block3
-            gap_b1_b3 = t1['actual_end'] - t3['actual_start']
+            # Same chromosome, need coordinate comparison to determine intra-chromosomal translocation
+            if t1['strand'] == '+':
+                # Positive strand: coordinates increase
+                block1_start = t1['actual_start']
+                block2_start = t2['actual_start']
+                block2_end = t2['actual_end']
+                block3_end = t3['actual_end']
+                
+                # Check if block2 is not between block1 and block3
+                is_translocation = (block2_start < block1_start and block2_end < block1_start) or (block2_start > block3_end and block2_end > block3_end)
+                
+                # Calculate gap between block1 and block3
+                gap_b1_b3 = t3['actual_start'] - t1['actual_end']
+            else:
+                # Negative strand: coordinates decrease
+                block1_start = t1['actual_start']
+                block2_start = t2['actual_start']
+                block2_end = t2['actual_end']
+                block3_end = t3['actual_end']
+                
+                # Check if block2 is not between block1 and block3
+                is_translocation = (block2_start < block1_start and block2_end < block1_start) or (block2_start > block3_end and block2_end > block3_end)
+                
+                # Calculate gap between block1 and block3
+                gap_b1_b3 = t1['actual_end'] - t3['actual_start']
         
-        # Ensure gap between target species block1 and block3 is within 100bp range
+        # Ensure gap between block1 and block3 in target species is within 100bp
         if abs(gap_b1_b3) > 100:
             continue
             
@@ -625,7 +636,7 @@ def detect_translocations(blocks, target, ref_species, non_target_species, max_g
             'block2_idx': i+1,
             'block3_idx': i+2,
             'sv_source': 'inter-block',
-            'gap_b1_b3': gap_b1_b3  # Record gap between block1 and block3
+            'gap_b1_b3': gap_b1_b3
         })
         translocation_block_indices.add(i+1)
     

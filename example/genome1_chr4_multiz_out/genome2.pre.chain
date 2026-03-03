@@ -1,0 +1,19 @@
+##matrix=axtChain 16 91,-114,-31,-123,-114,100,-125,-31,-31,-125,100,-114,-123,-31,-114,91
+##gapPenalties=axtChain O=400 E=30
+# lastz.v1.04.52 --notransition --ydrop=15000 --gappedthresh=3000 --hspthresh=4500 --format=axt --out=genome2.axt 
+#
+# hsp_threshold      = 4500
+# gapped_threshold   = 3000
+# x_drop             = 910
+# y_drop             = 15000
+# gap_open_penalty   = 400
+# gap_extend_penalty = 30
+#        A    C    G    T
+#   A   91 -114  -31 -123
+#   C -114  100 -125  -31
+#   G  -31 -125  100 -114
+#   T -123  -31 -114   91
+chain 280754 genome1_chr4 53000 + 20000 33000 genome2_chr4 53000 + 20000 33000 1
+1001	9998	9998
+2001
+

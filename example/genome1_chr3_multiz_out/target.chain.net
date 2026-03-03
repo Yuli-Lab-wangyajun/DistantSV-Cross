@@ -1,0 +1,22 @@
+##matrix=axtChain 16 91,-114,-31,-123,-114,100,-125,-31,-31,-125,100,-114,-123,-31,-114,91
+##gapPenalties=axtChain O=400 E=30
+# lastz.v1.04.52 --notransition --ydrop=15000 --gappedthresh=3000 --hspthresh=4500 --format=axt --out=target.axt 
+#
+# hsp_threshold      = 4500
+# gapped_threshold   = 3000
+# x_drop             = 910
+# y_drop             = 15000
+# gap_open_penalty   = 400
+# gap_extend_penalty = 30
+#        A    C    G    T
+#   A   91 -114  -31 -123
+#   C -114  100 -125  -31
+#   G  -31 -125  100 -114
+#   T -123  -31 -114   91
+net genome1_chr3 53000
+ fill 19999 11299 target_chr3 + 19999 11299 id 2 score 35065 ali 752 qDup 0 type top
+  gap 20202 595 target_chr3 + 20202 595
+   fill 20202 595 target_chr3 - 20202 595 id 3 score 56436 ali 595 qOver 595 qFar 0 qDup 0 type inv
+  gap 21056 9940 target_chr3 + 21044 9952
+ fill 31298 1403 target_chr3 - 31298 1403 id 1 score 133946 ali 1403 qDup 0 type top
+ fill 32701 299 target_chr3 + 32701 299 id 2 score 13942 ali 299 qDup 0 type top
