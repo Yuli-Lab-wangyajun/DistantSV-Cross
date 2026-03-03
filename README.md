@@ -13,7 +13,7 @@ Table of Contents:
   - [1. Genome alignment preprocessing](#1-genome-alignment-preprocessing)
   - [2. Pairwise genome alignment](#2-pairwise-genome-alignment)
   - [3. Generating Progressive Multi-Sequence Alignment Files](#3-generating-progressive-multi-sequence-alignment-files)
-  - [4-5-6. Alignment block filtering and realignment](#4-5-6-alignment-block-filtering-and-realignment)
+  - [4-5-6. Alignment block filtering and realignment; Calling structural variation; Calculation of the Mean Sequence Consistency](#4-5-6-alignment-block-filtering-and-realignment-calling-structural-variation-calculation-of-the-mean-sequence-consistency)
 - [Detailed parameters](#detailed-parameters)
 - [License](#license)
 
@@ -147,7 +147,7 @@ roast + E=REF_GENOME_PLACEHOLDER T=WORK_DIR_PLACEHOLDER/CHROMOSOME_PLACEHOLDER_m
 Note: This step involves batch-generating multiple sequence alignment scripts. You need to modify the "#SBATCH" parameters at the beginning of the Template2_multiz_script.sh template file provided by us, based on the job scheduling system of your cluster. No other modifications are required elsewhere in the file.This step will batch-generate scripts for constructing multiple sequence alignments for each chromosome of the reference genome in the shell_sh directory. Similarly, users need to submit tasks in batches from the shell_sh directory based on the actual resource availability of their cluster.Before submitting the tasks, the pairwise alignments between species in step2 must be completed.After the multiple sequence alignment tasks are completed in batches, a directory for multiple sequence alignment results will be automatically created in the working directory "/Yuli-Lab-wangyajun/DistantSV-Cross/example". The multiz_out directory will contain multiple sequence alignment files with the .maf suffix. This step completes the multiple sequence alignment of each sequence file of the reference genome with the genomes of other species. Subsequent analysis will process the MAF-format multiple sequence alignment files and ultimately detect structural variations in the target species.
 
 
-### 4-5-6. Alignment block filtering and realignment
+### 4-5-6. Alignment block filtering and realignment; Calling structural variation; Calculation of the Mean Sequence Consistency
 ```bash
 ./SV.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example -t Template3_SV_script.sh -target target -non_target "genome1,genome2,genome3"
 
