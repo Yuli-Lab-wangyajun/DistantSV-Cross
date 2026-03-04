@@ -1,5 +1,7 @@
 ## Overview
-<div align=left><img width=50% height=50% src="https://github.com/Yuli-Lab-wangyajun/DistantSV-Cross/blob/master/picture/DistantSV-Cross-logo.png"/></div>
+<div align="left">
+  <img width="50%" height="50%" src="./picture/DistantSV-Cross-logo.png" alt="DistantSV-Cross Logo">
+</div>
 
 DistantSV-Cross is a computational pipeline specifically designed to detect structural variations among distantly related multiple species. It consists of six computational steps to identify species-specific genomic structural variations in a target species relative to others, ultimately generating information on insertions, deletions, inversions, intra-chromosomal translocations, and inter-chromosomal translocations in BED format. Compared to other variant detection tools based on pairwise species comparisons via genome assembly, as well as existing multi-species structural variation detection software, DistantSV-Cross demonstrates superior performance, achieving higher precision, recall, and F1-scores. <br/>
 
