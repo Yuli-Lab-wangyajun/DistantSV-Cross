@@ -109,7 +109,7 @@ To facilitate efficient batch submission, we have also generated a file named ba
 
 ### 3. Generating Progressive Multi-Sequence Alignment Files
 ```bash
-./MSA.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example -t Template2_multiz_script.sh -tree "(((genome1 genome2) target) genome3)"
+./03_MSA.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example -t Template2_multiz_script.sh -tree "(((genome1 genome2) target) genome3)"
 
 *Parameter description for 03_MSA.sh*
    -s species.txt        : Files of genome abbreviations and their paths
@@ -160,7 +160,7 @@ Once the multiple sequence alignment tasks are completed, multiple directories e
 
 ### 4-5-6. Alignment block filtering and realignment; Calling structural variation; Calculation of the Mean Sequence Consistency
 ```bash
-./SV.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example -t Template3_SV_script.sh -target target -non_target "genome1,genome2,genome3"
+./04_SV.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example -t Template3_SV_script.sh -target target -non_target "genome1,genome2,genome3"
 
 *Parameter description for 04_SV.sh*
    -s species.txt        : Files of genome abbreviations and their paths
