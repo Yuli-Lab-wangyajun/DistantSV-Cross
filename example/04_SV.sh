@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # SV Analysis Script Generator
-# Usage: ./SV.sh -s species.txt -r reference -d working_directory -t sv_template.sh -target target_species -non_target "non_target_list"
+# Usage: ./04_SV.sh -s species.txt -r reference -d working_directory -t Template3_SV_script.sh -target target_species -non_target "non_target_list"
 
 usage() {
     echo "Usage: $0 -s species.txt -r reference_genome -d working_directory -t template.sh -target target_species -non_target \"non_target_list\""

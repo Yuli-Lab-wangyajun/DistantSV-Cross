@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: ./generate_align_scripts.sh -s species.txt -r reference_genome -d working_directory
+# usage: ./01_pre.sh -s species.txt -r reference_genome -d working_directory
 usage() {
     echo "usage: $0 -s species.txt -r reference_genome -d working_directory"
     echo "parameter description:"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Batch generation of LASTZ comparison scripts
-# usage: ./generate_align_scripts.sh -s species.txt -r reference_genome -d working_directory -t lastz_template.sh
+# usage: ./02_align.sh -s species.txt -r reference_genome -d working_directory -t Template1_lastz_script.sh
 usage() {
     echo "usage: $0 -s species.txt -r reference_genome -d working_directory -t template.sh"
     echo "parameter description:"

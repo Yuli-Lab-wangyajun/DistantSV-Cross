@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Batch generation of MULTIZ alignment scripts
-# usage: ./MSA.sh -s species.txt -r reference -d working_directory -t multiz_template.sh -tree "species_tree"
+# usage: ./03_MSA.sh -s species.txt -r reference -d working_directory -t Template2_multiz_script.sh -tree "species_tree"
 
 usage() {
     echo "usage: $0 -s species.txt -r reference_genome -d working_directory -t multiz_template.sh -tree \"species_tree\""

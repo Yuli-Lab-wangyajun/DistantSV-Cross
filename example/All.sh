@@ -8,9 +8,10 @@
 
 source ~/miniconda3/bin/activate
 conda activate test
-##step1 Genome alignment preprocessing
+
 cd /work/home/acm2g39zj0/wangyj/SV/new_SV_method/really_data/script_test
 dos2unix *.sh *.py
+##step1 Genome alignment preprocessing
 ./01_pre.sh -s species.txt -r genome1 -d /work/home/acm2g39zj0/wangyj/SV/new_SV_method/really_data/script_test
 
 ##step2 Pairwise genome alignment

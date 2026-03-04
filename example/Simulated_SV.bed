@@ -1,0 +1,10 @@
+genome1_chr1	30699	32100	INS	1400
+genome1_chr1	20200	20801	INS	600
+genome1_chr2	31300	32700	DEL	1400
+genome1_chr2	20200	20800	DEL	600
+genome1_chr3	31300	32700	INV	1400
+genome1_chr3	20200	20800	INV	600
+genome1_chr4	31300	34100	intraTRA	1400
+genome1_chr4	20200	21400	intraTRA	600
+genome1_chr5	31300	34100	interTRA	1400
+genome1_chr5	20200	21400	interTRA	600

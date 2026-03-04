@@ -1,5 +1,5 @@
 ## Overview
-DistantSV-Cross is a computational pipeline specifically designed for detecting structural variations among distantly related multiple species. It primarily comprises six computational steps to identify species-specific genomic structural variations in a target species relative to other species, ultimately generating insertion, deletion, inversion, intra-chromosomal translocation, and inter-chromosomal translocation information in BED format. Compared to other variant detection tools based on pairwise species comparison via genome assembly, as well as existing multi-species structural variation detection software, DistantSV-Cross demonstrates superior performance, achieving higher precision, recall, and F1-score. <br/>
+DistantSV-Cross is a computational pipeline specifically designed to detect structural variations among distantly related multiple species. It consists of six computational steps to identify species-specific genomic structural variations in a target species relative to others, ultimately generating information on insertions, deletions, inversions, intra-chromosomal translocations, and inter-chromosomal translocations in BED format. Compared to other variant detection tools based on pairwise species comparisons via genome assembly, as well as existing multi-species structural variation detection software, DistantSV-Cross demonstrates superior performance, achieving higher precision, recall, and F1-scores. <br/>
 
 Table of Contents:
 - [Overview](#overview)
@@ -18,7 +18,7 @@ Table of Contents:
 - [License](#license)
 
 ## Installation:
-DistantSV-Cross provides a complete pipeline for running the code, requiring only the installation of the required software, Python packages, and downloading the source code provided by us.
+DistantSV-Cross offers a comprehensive pipeline for running the code, requiring only the installation of the necessary software, Python packages, and downloading the source code provided by us.
 
 ### 1. Download the source code
 ```
@@ -27,18 +27,18 @@ git clone https://github.com/Yuli-Lab-wangyajun/DistantSV-Cross
 
 ### 2. Install the required dependencies for running the software
 ```
-## It is recommended to create a new environment to install the required software or packages. The Python environment should be 3.8+, here we use env_test as an example.
-conda create -n env_test python=3.8 pandas numpy -y
+## We recommend creating a new environment (e.g., test) with Python 3.8 or higher to install the required software or packages.
+conda create -n test python=3.8 pandas numpy -y
 
-## Manually install the following software and add them to the env_test environment:
+## Install the following software manually and make sure they are accessible within the "test" environment.
 lastz, multiz, muscle, mafft
 
-## From the installation packages at (https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/), find the following packages and add them to the env_test environment:
+## Download the following packages from https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/ and add them to the env_test environment.
 axtChain, chainPreNet, chainNet, netToAxt, axtToMaf, faSize, faToTwoBit, faSplit
 ```
 
 ## Data preparation
-I will use the sample files in the demo folder to demonstrate the usage steps of DistantSV-Cross in detail. All the following steps should be performed in the working directory "/Yuli-Lab-wangyajun/DistantSV-Cross/example".
+To demonstrate the usage of DistantSV-Cross, we will use the sample files provided in the demo folder. All steps described below should be executed in the working directory: "/Yuli-Lab-wangyajun/DistantSV-Cross/example".
 
 Before running, the following information needs to be prepared:
 ### 1. Prepare the species.txt file
@@ -48,16 +48,16 @@ genome2	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome2.fa
 genome3	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome3.fa
 target	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/target.fa
 ```
-Note: The first column is the abbreviated name for each species' genome, which you can customize for your convenience—it is recommended to keep it concise. The second column is the absolute path to the genome. Please note that these two columns must be separated by a tab. In this example, target.fa is designated as the target species to be analyzed, and the reference species is genome1.fa.
+Note: The first column specifies an abbreviated name for each species' genome, which you can define according to your needs—keeping it concise is recommended. The second column must contain the absolute path to the corresponding genome file. Please ensure that these two columns are separated by a tab. In this example, target.fa is designated as the target species to be analyzed, while genome1.fa serves as the reference genome.
 
 ### 2. Determine the phylogenetic relationships among the species
 ```
 (((genome1 target) genome2) genome3);
 ```
-Note: The phylogenetic relationships in Newick format are primarily used for constructing multiple sequence alignments in subsequent steps with multiz.
+Note: The phylogenetic relationships in Newick format provide the input for constructing multiple sequence alignments with MULTIZ in subsequent steps.
 
 ## Usage 
-After preparing the above information, SV detection can be formally performed. In this example, the reference genome is genome1.fa, and the target genome is target.fa.
+With the above information prepared, we can now initiate the SV detection process.
 ### 1. Genome alignment preprocessing
 ```bash
 ./01_pre.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example
@@ -67,7 +67,12 @@ After preparing the above information, SV detection can be formally performed. I
    -r reference_genome   : Reference
    -d working_directory  : Working directory path
 ```
-Note: This step will automatically create four directories in the specified working path "/Yuli-Lab-wangyajun/DistantSV-Cross/example": ref_chr, which stores the reference genome split by sequence count to enhance alignment efficiency; species_2bit, which generates 2bit files for each species genome for subsequent multiple sequence alignment; species_nibs, which produces nib files for each species genome; and species_sizes, which generates sizes files for each species genome. Specifically, it is recommended to use a reference genome assembled to the chromosome level, although a scaffold-level genome is also acceptable; however, a higher number of sequences in the reference genome will increase the task count, though this does not affect the analysis. Additionally, if there are many unassembled short sequence files, you can manually delete unnecessary ones in the ref_chr directory, retaining only the sequence files required for alignment.
+Note: This step automatically creates four directories under the specified working path /Yuli-Lab-wangyajun/DistantSV-Cross/example:
+ref_chr: stores the reference genome split by sequence count to improve alignment efficiency.
+species_2bit: contains 2bit files for each species genome, used for subsequent multiple sequence alignment.
+species_nibs: holds nib files for each species genome.
+species_sizes: stores size files for each species genome.
+It is recommended to use a chromosome-level reference genome for optimal performance, although a scaffold-level genome is acceptable. Note that a reference genome with a larger number of sequences will increase the number of tasks, but this does not affect the analysis results. If the ref_chr directory contains many unassembled short sequence files, you may manually delete unnecessary ones and retain only the sequences required for alignment.
 
 ### 2. Pairwise genome alignment
 ```bash
@@ -94,8 +99,11 @@ conda activate env_test
 cd WORK_DIR_PLACEHOLDER/axt/CHROMOSOME_PLACEHOLDER_axt
 lastz WORK_DIR_PLACEHOLDER/ref_chr/CHROMOSOME_PLACEHOLDER GENOME_NAME_PLACEHOLDER --notransition --ydrop=15000 --gappedthresh=3000 --hspthresh=4500 --format=axt --out=GENOME_NAME_OUTPUT.axt
 ```
-Note: This step involves batch-generating alignment scripts. To run the commands mentioned above, you need to modify the "#SBATCH" parameters at the beginning of the lastz_template.sh template file provided by us, based on the job scheduling system of your cluster. The lastz alignment parameters, such as "--notransition --ydrop=15000 --gappedthresh=3000 --hspthresh=4500 --format=axt," can be adjusted as needed. However, this set of parameters has been evaluated by us as the most suitable for aligning distantly related genomes. Therefore, we recommend using the default parameters in the template file. No other modifications are required elsewhere in the file.This step will automatically generate two directories in the specified working path "/Yuli-Lab-wangyajun/DistantSV-Cross/example":
-shell_sh: Contains batch-generated alignment scripts for sequentially aligning each other genome to each chromosome of the reference genome; axt: Stores the pairwise alignment results for each chromosome of the reference genome against the other genomes. To facilitate efficient batch submission, we have generated a file named batch_lastz_submit.sh, which contains all submission scripts. You can simply run “./batch_lastz_submit.sh” to submit all tasks at once. However, we recommend submitting tasks in batches from the shell_sh directory based on the actual resource availability of your cluster.
+Note: This step involves batch-generating LASTZ alignment scripts. To run the commands described above, you need to modify the #SBATCH parameters at the beginning of the Template1_lastz_script.sh template file (provided by us) according to the job scheduling system of your cluster. The LASTZ alignment parameters—such as --notransition, --ydrop=15000, --gappedthresh=3000, --hspthresh=4500, --format=axt—can be adjusted as needed. However, we have evaluated this parameter set and found it to be the most suitable for aligning distantly related genomes. Therefore, we recommend using the default parameters provided in the template file. No other modifications to the file are required.
+This step will automatically create two directories under the specified working path /Yuli-Lab-wangyajun/DistantSV-Cross/example:
+shell_sh: Contains the batch-generated alignment scripts for sequentially aligning each other genome to each chromosome of the reference genome.
+axt: Stores the pairwise alignment results for each chromosome of the reference genome against the other genomes.
+To facilitate efficient batch submission, we have also generated a file named batch_lastz_submit.sh, which contains all submission commands. You can run "./batch_lastz_submit.sh" to submit all tasks at once. However, we recommend submitting tasks in batches from the shell_sh directory, depending on the actual resource availability of your cluster.
 
 ### 3. Generating Progressive Multi-Sequence Alignment Files
 ```bash
@@ -143,7 +151,10 @@ mkdir -p multiz_out
 roast + E=REF_GENOME_PLACEHOLDER T=WORK_DIR_PLACEHOLDER/CHROMOSOME_PLACEHOLDER_multiz_out/multiz_out 'SPECIES_TREE_PLACEHOLDER' WORK_DIR_PLACEHOLDER/CHROMOSOME_PLACEHOLDER_multiz_out/*.sing.maf WORK_DIR_PLACEHOLDER/CHROMOSOME_PLACEHOLDER_multiz_out/multiz_out/CHROMOSOME_PLACEHOLDER.maf
 ```
 Note: This step involves batch-generating multiple sequence alignment scripts. You need to modify the "#SBATCH" parameters at the beginning of the Template2_multiz_script.sh template file provided by us, based on the job scheduling system of your cluster. No other modifications are required elsewhere in the file.This step will batch-generate scripts for constructing multiple sequence alignments for each chromosome of the reference genome in the shell_sh directory. Similarly, users need to submit tasks in batches from the shell_sh directory based on the actual resource availability of their cluster.Before submitting the tasks, the pairwise alignments between species in step2 must be completed.After the multiple sequence alignment tasks are completed in batches, a directory for multiple sequence alignment results will be automatically created in the working directory "/Yuli-Lab-wangyajun/DistantSV-Cross/example". The multiz_out directory will contain multiple sequence alignment files with the .maf suffix. This step completes the multiple sequence alignment of each sequence file of the reference genome with the genomes of other species. Subsequent analysis will process the MAF-format multiple sequence alignment files and ultimately detect structural variations in the target species.
-
+This step involves batch-generating multiple sequence alignment scripts. You need to modify the #SBATCH parameters at the beginning of the Template2_multiz_script.sh template file according to the job scheduling system of your cluster. No other modifications to the file are required.
+Before submitting the alignment tasks, ensure that the pairwise alignments between species from "2. Pairwise genome alignment" have been successfully completed.
+This step will automatically generate scripts for constructing multiple sequence alignments for each chromosome of the reference genome, which will be saved in the shell_sh directory. We recommend submitting these tasks in batches from the shell_sh directory based on the available resources of your cluster.
+Once the multiple sequence alignment tasks are completed, multiple directories ending with "_multiz_out" will be automatically generated under the working path /Yuli-Lab-wangyajun/DistantSV-Cross/example, each of which contains multiple sequence alignment result files (with the .maf suffix).
 
 ### 4-5-6. Alignment block filtering and realignment; Calling structural variation; Calculation of the Mean Sequence Consistency
 ```bash
@@ -179,7 +190,8 @@ python ../../Module4_sequence_consistency_calculation.py -m CHROMOSOME_PLACEHOLD
 python ../../Module4_sequence_consistency_calculation.py -m CHROMOSOME_PLACEHOLDER_filter_realign.maf -b CHROMOSOME_PLACEHOLDER_interchrom_translocations.bed -o CHROMOSOME_PLACEHOLDER_interTRA.bed -r REF_GENOME_PLACEHOLDER
 python ../../Module4_sequence_consistency_calculation.py -m CHROMOSOME_PLACEHOLDER_filter_realign.maf -b CHROMOSOME_PLACEHOLDER_intrachrom_translocations.bed -o CHROMOSOME_PLACEHOLDER_intraTRA.bed -r REF_GENOME_PLACEHOLDER
 ```
-Note: This step integrates three steps—"step4: Alignment block filtering and realignment," "step5: Calling structural variation," and "step6: Calculation of the Mean Sequence Consistency"—into one, batch-generating SV detection scripts. Meanwhile, you need to modify the Template3_SV_script.sh template file provided by us, specifically adjusting the "#SBATCH" parameters at the beginning based on the job scheduling system of your cluster. Additionally, in the provided template file Template3_SV_script.sh, you must modify some parameters in "step4: Calling structural variation," such as "--min_sequences 4" (the example includes 4 species; you need to adjust this based on the number of species in your dataset). For other steps, it is recommended to keep the default parameters. Finally, we will also provide detailed parameter usage for [Module1_MAF_filter.py](#Module1_MAF_filter.py), [Module2_MAF_realigner.py](#Module2_MAF_realigner.py), [Module3_call_SV.py](#Module3_call_SV.py), and [Module4_sequence_consistency_calculation.py](#Module4_sequence_consistency_calculation.py) below, allowing you to make flexible adjustments. After running the command, scripts will be batch-generated in the shell_sh directory for each multiple sequence alignment MAF file. You can submit jobs as described earlier. The final results will be generated in the multiz_out directory where each MAF file is located, producing SV files in [BED format](#BED). The final result files are BED files ending with "_ins.bed", "_del.bed", "_inv.bed", "_intraTRA.bed", and "_interTRA.bed". Users only need to focus on these five result files.
+Note: This step integrates three steps—"4: Alignment block filtering and realignment," "5: Calling structural variation," and "6: Calculation of the Mean Sequence Consistency"—into one, batch-generating SV detection scripts. Meanwhile, you need to modify the Template3_SV_script.sh template file provided by us, specifically adjusting the "#SBATCH" parameters at the beginning based on the job scheduling system of your cluster. Additionally, in the provided template file Template3_SV_script.sh, you must modify some parameters in "step4: Calling structural variation," such as "--min_sequences 4" (the example includes 4 species; you need to adjust this based on the number of species in your dataset). For other steps, it is recommended to keep the default parameters. 
+Finally, we will also provide detailed parameter usage for [Module1_MAF_filter.py](#Module1_MAF_filter.py), [Module2_MAF_realigner.py](#Module2_MAF_realigner.py), [Module3_call_SV.py](#Module3_call_SV.py), and [Module4_sequence_consistency_calculation.py](#Module4_sequence_consistency_calculation.py) below, allowing you to make flexible adjustments. After running the command, scripts will be batch-generated in the shell_sh directory for each multiple sequence alignment MAF file. You can submit jobs as described earlier. The final results will be generated in the multiz_out directory where each MAF file is located, producing SV files in [BED format](#BED). The final result files are BED files ending with "_ins.bed", "_del.bed", "_inv.bed", "_intraTRA.bed", and "_interTRA.bed". Users only need to focus on these five result files.
 
 ## Detailed parameters
 

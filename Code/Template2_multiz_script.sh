@@ -3,11 +3,11 @@
 #SBATCH -p wzhcnormal
 #SBATCH -N 1
 #SBATCH --ntasks-per-node=1
-#SBATCH -o /work/home/acm2g39zj0/err_out/multiz_CHROMOSOME_PLACEHOLDER.out
-#SBATCH -e /work/home/acm2g39zj0/err_out/multiz_CHROMOSOME_PLACEHOLDER.err
+#SBATCH -o your_process_file_directory/JOB_NAME_PLACEHOLDER.out
+#SBATCH -e your_process_file_directory/JOB_NAME_PLACEHOLDER.err
 
-source ~/miniconda3/bin/activate
-conda activate test
+conda activate your_env
+
 cd WORK_DIR_PLACEHOLDER
 nib=WORK_DIR_PLACEHOLDER/species_nibs
 sizes=WORK_DIR_PLACEHOLDER/species_sizes
