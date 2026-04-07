@@ -22,3 +22,5 @@ dos2unix *.sh *.py
 ##step4-6 Alignment block filtering and realignment; Calling structural variation; Calculation of the Mean Sequence Consistency
 ./04_SV.sh -s species.txt -r ref -d working_directory -t Template3_SV_script.sh -target target -non_target "ref,query1,query2"
 
+cd ./shell_sh
+python GNUparallel.py

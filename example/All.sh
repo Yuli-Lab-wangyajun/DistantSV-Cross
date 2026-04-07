@@ -23,3 +23,5 @@ dos2unix *.sh *.py
 ##step4-6 Alignment block filtering and realignment; Calling structural variation; Calculation of the Mean Sequence Consistency
 ./04_SV.sh -s species.txt -r genome1 -d /work/home/acm2g39zj0/wangyj/SV/new_SV_method/really_data/script_test -t Template3_SV_script.sh -target target -non_target "genome1,genome2,genome3"
 
+cd ./shell_sh
+python GNUparallel.py
