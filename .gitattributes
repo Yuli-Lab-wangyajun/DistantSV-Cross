@@ -1,0 +1,11 @@
+*.sh -text
+*.txt -text
+*.csv -text
+*.py -text
+*.bed -text
+*.Axt -text
+*.chain -text
+*.net -text
+*.2bit -text
+*.nib -text
+*.sizes -text

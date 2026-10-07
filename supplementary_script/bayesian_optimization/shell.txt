@@ -1,0 +1,10 @@
+python Bayes_opt.py \
+  --history history_set.csv \
+  --output next_params.csv \
+  --topk 5 \
+  --anchor-topk 5 \
+  --len-tol 0.02 \
+  --num-tol 0.02 \
+  --max-candidates 200000 \
+  --seed 1 \
+  --plot temp.png
