@@ -888,13 +888,13 @@ def write_bed(output_file, sv_events, sv_type):
                 blocks = str(event['block_idx'])
                 additional_info = "intra-block" if 'sv_source' in event and event['sv_source'] == 'intra-block' else "isolated-block"
             elif 'block_indices' in event:  # Multi-block inversion event
-                blocks = ",".join(str(x) for x in event['block_indices']) # Convert list to comma-separated string
+                blocks = ";".join(str(x) for x in event['block_indices']) # Convert list to comma-separated string
                 additional_info = f"multi-block-inversion (pattern: {event.get('pattern', 'N/A')})"
             elif 'block1_idx' in event and 'block2_idx' in event and 'block3_idx' in event:  # Three-block inversion event
-                blocks = f"{event['block1_idx']},{event['block2_idx']},{event['block3_idx']}"
+                blocks = f"{event['block1_idx']};{event['block2_idx']};{event['block3_idx']}"
                 additional_info = "inter-block"
             else:  # Two-block SVs (or other cases)
-                blocks = f"{event['block1_idx']},{event['block2_idx']}"
+                blocks = f"{event['block1_idx']};{event['block2_idx']}"
                 additional_info = "inter-block"
             
             # Organize fields

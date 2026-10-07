@@ -232,7 +232,7 @@ def main():
     
     # Process each variant
     for idx, row in bed_df.iterrows():
-        block_indexes = [int(idx) for idx in str(row['Block_Indexes']).split(',')]
+        block_indexes = [int(idx) for idx in str(row['Block_Indexes']).split(';')]
         sv_source = row['SV_Source']
         
         try:
