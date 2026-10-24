@@ -1,7 +1,7 @@
 ## Overview
 <div align="center"><img width="85%" src="https://github.com/Yuli-Lab-wangyajun/DistantSV-Cross/blob/master/picture/DistantSV-Cross-logo.png"/></div>
 
-DistantSV-Cross is a computational pipeline specifically designed to detect structural variations among distantly related multiple species. It consists of six computational steps to identify species-specific genomic structural variations in a target species relative to others, ultimately generating information on insertions, deletions, inversions, intra-chromosomal translocations, and inter-chromosomal translocations in BED format. Compared to other variant detection tools based on pairwise species comparisons via genome assembly, as well as existing multi-species structural variation detection software, DistantSV-Cross demonstrates superior performance, achieving higher precision, recall, and F1-scores. <br/>
+DistantSV-Cross is a computational pipeline specifically designed to detect structural variations (SVs) among distantly related multiple species. It consists of six computational steps to identify species-specific genomic structural variations in a target species relative to others, ultimately generating information on insertions, deletions, inversions, intra-chromosomal translocations, and inter-chromosomal translocations in BED format. Compared to other variant detection tools based on pairwise species comparisons via genome assembly, as well as existing multi-species structural variation detection software, DistantSV-Cross demonstrates superior performance, achieving higher precision, recall, and F1 scores. <br/>
 
 Table of Contents:
 - [Overview](#overview)
@@ -45,15 +45,15 @@ axtChain, chainPreNet, chainNet, netToAxt, axtToMaf, faSize, faToTwoBit, faSplit
 ```
 
 ## Data preparation
-To demonstrate the usage of DistantSV-Cross, we will use the sample files provided in the demo folder. All steps described below should be executed in the working directory: "/Yuli-Lab-wangyajun/DistantSV-Cross/example".
+To demonstrate the usage of DistantSV-Cross, we will use the sample files provided in the demo folder. All steps described below should be executed in the working directory “/Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example”, which is contained in the example_supplementary_data.zip file in the released “V1.0”.
 
 Before running, the following information needs to be prepared:
 ### 1. Prepare the species.txt file
 ```
-genome1	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome1.fa
-genome2	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome2.fa
-genome3	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/genome3.fa
-target	/Yuli-Lab-wangyajun/DistantSV-Cross/example/genome/target.fa
+genome1	/Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example/genome/genome1.fa
+genome2	/Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example/genome/genome2.fa
+genome3	/Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example/genome/genome3.fa
+target	/Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example/genome/target.fa
 ```
 Note: The first column specifies an abbreviated name for each species' genome, which you can define according to your needs—keeping it concise is recommended. The second column must contain the absolute path to the corresponding genome file. Please ensure that these two columns are separated by a tab. In this example, target.fa is designated as the target species to be analyzed, while genome1.fa serves as the reference genome.
 
@@ -64,7 +64,8 @@ Note: The first column specifies an abbreviated name for each species' genome, w
 Note: The phylogenetic relationships in Newick format provide the input for constructing multiple sequence alignments with MULTIZ in subsequent steps.
 
 ## Usage 
-With the above information prepared, we can now initiate the structural variation (SV) detection process. A fully functional working example is provided in the "example" directory, and the step-by-step operational procedure is detailed below:
+With the above information prepared, we can now initiate the SV detection process. A fully functional working example is provided in the "example" directory, and the step-by-step operational procedure is detailed below:
+<div align="center"><img width="95%" src="https://github.com/Yuli-Lab-wangyajun/DistantSV-Cross/blob/master/picture/graphical_abstract.png"/></div>
 ### 1. Genome alignment preprocessing
 ```bash
 ./01_pre.sh -s species.txt -r genome1 -d /work/home/acm2g39zj0/wangyj/SV/new_SV_method/example
@@ -79,7 +80,7 @@ It is recommended to use a chromosome-level reference genome for optimal perform
 
 ### 2. Pairwise genome alignment
 ```bash
-./02_align.sh -s species.txt -r genome1 -d /work/home/acm2g39zj0/wangyj/SV/new_SV_method/example -t Template1_lastz_script.sh
+./02_align.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example -t Template1_lastz_script.sh
 
 *Parameter description for 02_align.sh*
    -s species.txt        : Files of genome abbreviations and their paths
@@ -92,7 +93,7 @@ To facilitate efficient batch submission, we have also generated a file named ba
 
 ### 3. Progressive multi-sequence alignment
 ```bash
-./03_MSA.sh -s species.txt -r genome1 -d /work/home/acm2g39zj0/wangyj/SV/new_SV_method/example -t Template2_multiz_script.sh -tree "(((genome1 genome2) target) genome3)"
+./03_MSA.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example -t Template2_multiz_script.sh -tree "(((genome1 genome2) target) genome3)"
 
 *Parameter description for 03_MSA.sh*
    -s species.txt        : Files of genome abbreviations and their paths
@@ -109,7 +110,7 @@ Once the multiple sequence alignment tasks are completed, multiple directories e
 
 ### 4-5-6. Alignment block filtering and realignment; Calling SVs; Mean sequence consistency of SV breakpoints
 ```bash
-./04_SV.sh -s species.txt -r genome1 -d /work/home/acm2g39zj0/wangyj/SV/new_SV_method/example -t Template3_SV_script.sh -target target -non_target "genome1,genome2,genome3"
+./04_SV.sh -s species.txt -r genome1 -d /Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example -t Template3_SV_script.sh -target target -non_target "genome1,genome2,genome3"
 
 *Parameter description for 04_SV.sh*
    -s species.txt        : Files of genome abbreviations and their paths
@@ -125,7 +126,7 @@ The example folder contains a simulated file named Simulated_SV.bed, which inclu
 
 ### Serial and parallel computing strategies
 ```bash
-python GNUparallel.py /work/home/acm2g39zj0/wangyj/SV/new_SV_method/example/shell_sh -s genome1,genome2,genome3,target -r genome1 -g 60
+python GNUparallel.py /Yuli-Lab-wangyajun/DistantSV-Cross/example_supplementary_data/example/shell_sh -s genome1,genome2,genome3,target -r genome1 -g 60
 ```
 Note: Based on the GNU Parallel tool, we additionally provide parallel task execution. Users can directly submit combined_*_job.sh to achieve parallel execution of a single task, or choose to run multiple tasks simultaneously, and select the appropriate running mode based on available computing resources.<br/>
 
